@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Login Page Wifi Fazznet">
+	<meta name="keywords" content="Login, Page, Wifi, Fazznet, Hotspot, Voucher">
+	<meta name="author" content="habibullah">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+	<title>HOTSPOT</title>
+	<link rel="shortcut icon" type="image/x-icon" href="https://fazznet.co.id/assets/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body class="bg-aqua fw-bold text-black text-center">
+	<header class="w-95 max-w-400-px mx-auto my-10-px">
+		<img src="logo.png" alt="logo" class="w-100 py-20-px">
+	</header>
+	<main class="w-95 max-w-400-px mx-auto my-10-px d-block">
+		<div id="form" class="p-5-px">
+			<form method="post" action="$(link-login-only)" name="login" autocomplete="off">
+				<input type="text" id="username" name="username" placeholder="username" pattern="^[A-Za-z0-9]+$" minlength="3" maxlength="20" title="hanya huruf dan angka tanpa titik koma maupun spasi" class="d-none" required readonly>
+				<input type="text" id="password" name="password" placeholder="password" pattern="^[A-Za-z0-9]+$" minlength="3" maxlength="20" title="hanya huruf dan angka tanpa titik koma maupun spasi" class="w-100 p-10-px my-5-px box-sizing-border-box border-none border-radius-10-px text-center" required autofocus>
+				<button type="submit" class="w-100 p-10-px mx-auto fw-bold bg-blue text-white cursor-pointer text-decoration-none border-none border-radius-10-px">L O G I N</button>
+			</form>
+		</div>
+		<div id="info" class="p-5-px bg-white text-center fs-14-px border-radius-10-px d-none">
+			<h3 class="fw-bold text-red">PERINGATAN</h3>
+			<p>
+				<span>Perangkat terdeteksi menggunakan </span>
+				<span class="fw-bold text-red">MAC Acak</span>
+			</p>
+			<p>
+				<span>Silahkan Ubah menggunakan </span>
+				<span class="fw-bold text-red">MAC Perangkat</span>
+			</p>
+		</div>
+	</main>
+	<footer class="bg-white text-center py-5-px position-fixed bottom-0 start-0 end-0">
+		<a href="https://fazznet.co.id" class="m-0 text-primary fw-semibold text-decoration-none">Supported By Fazznet</a>
+	</footer>
+</body>
+
+<script>
+	const endPoint = 'https://fazznet.co.id/app/maclookup/2024.php';
+	const cli = "$(identity)";
+	const mac = "$(mac)";
+	const callApi = endPoint + '?cli=' + cli + '&mac=' + mac;
+	fetch(callApi)
+	.then(response => response.json())
+	.then(data => {
+		const message = data.message;
+		const macType = data.mac_type;
+		console.log('Message' + ' : ' + message);
+		const form = document.getElementById('form');
+		const info = document.getElementById('info');
+			if (macType === 'device mac') {
+				form.classList.remove('d-none');
+				info.classList.add('d-none');
+			} else if (macType === 'random mac') {
+				form.classList.add('d-none');
+				info.classList.remove('d-none');
+			} else {
+				console.log('Message : api did not provide the expected response');
+			};
+		})
+		.catch(error => {
+			console.error('Error' + ' : ' + error);
+		});
+</script>
+
+<script>
+	const username = document.login.username;
+	const password = document.login.password;
+	username.addEventListener("input", function(){
+		password.value = username.value;
+	});
+	password.addEventListener("input", function(){
+		username.value = password.value;
+	});
+</script>
+
+<script>
+	const error = "$(error)";
+	if (error == "invalid username or password") {
+		window.location.href = "error.html?u=$(username)&e=wrong";
+	} else if (error == "already authorizing, retry later") {
+		window.location.href = "error.html?u=$(username)&e=loading";
+	} else if (error == "user $(username) has reached uptime limit") {
+		window.location.href = "error.html?u=$(username)&e=uptime";
+	} else if (error == "user $(username) has reached traffic limit") {
+		window.location.href = "error.html?u=$(username)&e=traffic";
+	} else if (error == "user $(username) is not allowed to log in from this MAC address") {
+		window.location.href = "error.html?u=$(username)&e=random";
+	} else if (error == "no more sessions are allowed for user $(username)") {
+		window.location.href = "error.html?u=$(username)&e=session";
+	};
+</script>
+
+</html>

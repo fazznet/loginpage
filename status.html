@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Login Page Wifi Fazznet">
+	<meta name="keywords" content="Login, Page, Wifi, Fazznet, Hotspot, Voucher">
+	<meta name="author" content="habibullah">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+	<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+	<title>HOTSPOT</title>
+	<link rel="shortcut icon" type="image/x-icon" href="https://fazznet.co.id/assets/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body class="bg-lime fw-bold text-black text-center">
+	<header class="w-95 max-w-400-px mx-auto my-10-px">
+		<h1>LOGIN BERHASIL</h1>
+	</header>
+	<section class="w-95 max-w-400-px mx-auto my-10-px">
+		<p>
+			<span class="d-block p-5-px">SELAMAT DATANG</span>
+			<span class="d-block p-5-px">" $(username) "</span>
+		</p>
+		<table class="border-1-px-solid-black mx-auto my-10-px">
+			<tr>
+				<td class="border-1-px-solid-black p-10-px">IP Address</td>
+				<td class="border-1-px-solid-black p-10-px">$(ip)/32</td>
+			</tr>
+			<tr>
+				<td class="border-1-px-solid-black p-10-px">MAC Address</td>
+				<td class="border-1-px-solid-black p-10-px">$(mac)</td>
+			</tr>
+			<tr>
+				<td class="border-1-px-solid-black p-10-px">Penggunaan</td>
+				<td class="border-1-px-solid-black p-10-px"><span id="total">Total Usage</span></td>
+			</tr>
+			<tr>
+				<td class="border-1-px-solid-black p-10-px">Sisa Kuota</td>
+				<td class="border-1-px-solid-black p-10-px">Tak Terbatas</td>
+			</tr>
+		</table>
+		<p>
+			<span class="d-block p-5-px">Terima Kasih Telah Menggunakan</span>
+			<span class="d-block p-5-px">Layanan Wifi Murah Dari Kami</span>
+		</p>
+	</section>
+	<footer class="w-95 max-w-400-px mx-auto my-10-px">
+		<button type="button" id="logout" class="fw-bold mx-auto bg-blue text-white fs-12-px p-10-px m-1-px cursor-pointer text-decoration-none border-none border-radius-10-px">LOGOUT</button>
+		<button type="button" id="change" class="fw-bold mx-auto bg-blue text-white fs-12-px p-10-px m-1-px cursor-pointer text-decoration-none border-none border-radius-10-px">STATUS</button>
+		<button type="button" id="report" class="fw-bold mx-auto bg-blue text-white fs-12-px p-10-px m-1-px cursor-pointer text-decoration-none border-none border-radius-10-px">REPORT</button>
+	</footer>
+</body>
+
+<script>
+	const upload = parseInt("$(bytes-in)");
+	const dowload = parseInt("$(bytes-out)");
+	const usage = Math.ceil((upload + dowload) / 1000000);
+	document.getElementById('total').textContent = usage + ' MB';
+</script>
+
+<script>
+	const logout = document.getElementById('logout');
+	logout.addEventListener('click', function(){
+		location.href = 'logout.html';
+	});
+	const change = document.getElementById('change');
+	change.addEventListener('click', function(){
+		location.href = 'https://fazznet.co.id/wifi/hotspot/status.php?server=$(identity)&client=$(username)';
+	});
+	const report = document.getElementById('report');
+	report.addEventListener('click', function(){
+		location.href = 'https://wa.me/6288801026000?text=$(username)@$(identity)'
+	});
+</script>
+
+</html>
