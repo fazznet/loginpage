@@ -45,8 +45,8 @@
 
 <script>
 	const endPoint = 'https://fazznet.co.id/app/maclookup/2024.php';
-	const cli = "$(identity)";
-	const mac = "$(mac)";
+	const cli = 'trial';
+	const mac = '$(mac)';
 	const callApi = endPoint + '?cli=' + cli + '&mac=' + mac;
 	fetch(callApi)
 	.then(response => response.json())
