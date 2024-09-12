@@ -18,8 +18,8 @@
 	<header class="w-95 max-w-400-px mx-auto my-10-px">
 		<img src="logo.png" alt="logo" class="w-100 py-20-px">
 	</header>
-	<main class="w-95 max-w-400-px mx-auto my-10-px d-block">
-		<div id="form" class="p-5-px">
+	<main class="w-95 max-w-400-px mx-auto my-10-px">
+		<div id="form" class="p-5-px d-none">
 			<form method="post" action="$(link-login-only)" name="login" autocomplete="off">
 				<input type="text" id="username" name="username" placeholder="username" pattern="^[A-Za-z0-9]+$" minlength="3" maxlength="20" title="hanya huruf dan angka tanpa titik koma maupun spasi" class="d-none" required readonly>
 				<input type="text" id="password" name="password" placeholder="password" pattern="^[A-Za-z0-9]+$" minlength="3" maxlength="20" title="hanya huruf dan angka tanpa titik koma maupun spasi" class="w-100 p-10-px my-5-px box-sizing-border-box border-none border-radius-10-px text-center" required autofocus>
@@ -45,7 +45,7 @@
 
 <script>
 	const endPoint = 'https://fazznet.co.id/app/macdetect/2024.php';
-	const cli = 'trial';
+	const cli = 'tria';
 	const mac = '$(mac)';
 	const callApi = endPoint + '?cli=' + cli + '&mac=' + mac;
 	fetch(callApi)
@@ -54,13 +54,11 @@
 		const message = data.message;
 		const macType = data.mac_type;
 		console.log('Message' + ' : ' + message);
-		const form = document.getElementById('form');
-		const info = document.getElementById('info');
 			if (macType === 'device mac') {
+				const form = document.getElementById('form');
 				form.classList.remove('d-none');
-				info.classList.add('d-none');
 			} else if (macType === 'random mac') {
-				form.classList.add('d-none');
+				const info = document.getElementById('info');
 				info.classList.remove('d-none');
 			} else {
 				console.log('Message : api did not provide the expected response');
